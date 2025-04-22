@@ -39,6 +39,58 @@ public class Conta {
 	@JoinColumn(name = "dono_conta", nullable = false)
 	private Cliente cliente;
 
+	public Long getContaId() {
+		return contaId;
+	}
 
+	public void setContaId(Long contaId) {
+		this.contaId = contaId;
+	}
+
+	public String getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(String agencia) {
+		this.agencia = agencia;
+	}
+
+	public BigDecimal getSaldoAtual() {
+		return saldoAtual;
+	}
+
+	public void setSaldoAtual(BigDecimal saldoAtual) {
+		this.saldoAtual = saldoAtual;
+	}
+
+	public TipoConta getTipoConta() {
+		return tipoConta;
+	}
+
+	public void setTipoConta(TipoConta tipoConta) {
+		this.tipoConta = tipoConta;
+	}
+
+	public StatusConta getStatusConta() {
+		return statusConta;
+	}
+
+	public void setStatusConta(StatusConta statusConta) {
+		this.statusConta = statusConta;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	@Override
+	public String toString() {
+		return "Conta [contaId=" + contaId + ", agencia=" + agencia + ", saldoAtual=" + saldoAtual + ", tipoConta="
+				+ tipoConta + ", statusConta=" + statusConta + ", cliente=" + cliente + "]";
+	}
 
 }
