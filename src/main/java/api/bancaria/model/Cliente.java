@@ -36,7 +36,7 @@ public class Cliente {
 	@Column(name = "endereco", length = 200, nullable = false)
 	private String endereco;
 
-	@OneToMany(mappedBy = "donoConta", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
 	private List<Conta> contas;
 
 	
