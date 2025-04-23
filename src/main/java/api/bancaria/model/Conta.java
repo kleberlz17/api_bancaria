@@ -18,8 +18,8 @@ public class Conta {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "conta_id", nullable = false)
-	private Long contaId;
+	@Column(name = "id_conta", nullable = false)
+	private Long idConta;
 
 	@Column(name = "agencia", nullable = false)
 	private String agencia; // String pq costuma ter zeros na esquerda ou padroes (0001-9).
@@ -39,12 +39,12 @@ public class Conta {
 	@JoinColumn(name = "dono_conta", nullable = false)
 	private Cliente cliente;
 
-	public Long getContaId() {
-		return contaId;
+	public Long getIdConta() {
+		return idConta;
 	}
 
-	public void setContaId(Long contaId) {
-		this.contaId = contaId;
+	public void setIdConta(Long idConta) {
+		this.idConta = idConta;
 	}
 
 	public String getAgencia() {
@@ -89,8 +89,10 @@ public class Conta {
 
 	@Override
 	public String toString() {
-		return "Conta [contaId=" + contaId + ", agencia=" + agencia + ", saldoAtual=" + saldoAtual + ", tipoConta="
+		return "Conta [idConta=" + idConta + ", agencia=" + agencia + ", saldoAtual=" + saldoAtual + ", tipoConta="
 				+ tipoConta + ", statusConta=" + statusConta + ", cliente=" + cliente + "]";
 	}
+
+	
 
 }

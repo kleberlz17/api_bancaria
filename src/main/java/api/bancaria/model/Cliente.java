@@ -15,8 +15,9 @@ import jakarta.persistence.OneToMany;
 public class Cliente {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_cliente", nullable = false)
+	private Long idCliente;
 
 	@Column(name = "nome", length = 150, nullable = false)
 	private String nomeCompleto;
@@ -39,12 +40,12 @@ public class Cliente {
 	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
 	private List<Conta> contas;
 
-	public int getId() {
-		return id;
+	public Long getIdCliente() {
+		return idCliente;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setIdCliente(Long idCliente) {
+		this.idCliente = idCliente;
 	}
 
 	public String getNomeCompleto() {
@@ -105,9 +106,11 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + ", nomeCompleto=" + nomeCompleto + ", cpf=" + cpf + ", dataNascimento="
-				+ dataNascimento + ", email=" + email + ", telefone=" + telefone + ", endereco=" + endereco
-				+ ", contas=" + contas + "]";
+		return "Cliente [idCliente=" + idCliente + ", nomeCompleto=" + nomeCompleto + ", cpf=" + cpf
+				+ ", dataNascimento=" + dataNascimento + ", email=" + email + ", telefone=" + telefone + ", endereco="
+				+ endereco + ", contas=" + contas + "]";
 	}
+
+	
 
 }

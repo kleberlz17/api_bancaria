@@ -19,7 +19,8 @@ public class Transacao {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Column(name = "id_transacao", nullable = false)
+	private Long idTransacao;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo_transacao", length = 50, nullable = false)
@@ -39,12 +40,12 @@ public class Transacao {
 	@JoinColumn(name = "conta_destino_id", nullable = false)
 	private Conta contaDestino;
 
-	public Long getId() {
-		return id;
+	public Long getIdTransacao() {
+		return idTransacao;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdTransacao(Long idTransacao) {
+		this.idTransacao = idTransacao;
 	}
 
 	public TipoTransacao getTipoTransacao() {
@@ -89,9 +90,10 @@ public class Transacao {
 
 	@Override
 	public String toString() {
-		return "Transacao [id=" + id + ", tipoTransacao=" + tipoTransacao + ", valorMovimentado=" + valorMovimentado
-				+ ", dataTransacao=" + dataTransacao + ", contaOrigem=" + contaOrigem + ", contaDestino=" + contaDestino
-				+ "]";
+		return "Transacao [idTransacao=" + idTransacao + ", tipoTransacao=" + tipoTransacao + ", valorMovimentado="
+				+ valorMovimentado + ", dataTransacao=" + dataTransacao + ", contaOrigem=" + contaOrigem
+				+ ", contaDestino=" + contaDestino + "]";
 	}
 
+	
 }
