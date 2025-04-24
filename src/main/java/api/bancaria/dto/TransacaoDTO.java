@@ -3,7 +3,7 @@ package api.bancaria.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import api.bancaria.model.TipoTransacao;
-import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,13 +11,13 @@ public class TransacaoDTO {
 
 	@NotNull(message = "Campo obrigatório")
 	@Min(1)
-	@Max(999999)
 	private Long idTransacao;
 	
 	@NotNull(message = "Informe o tipo de transação")
 	private TipoTransacao tipoTransacao;
 	
 	@NotNull(message = "Valor movimentado não pode ser nulo")
+	@DecimalMin("0.01")
 	private BigDecimal valorMovimentado;
 	
 	private LocalDateTime dataTransacao;
