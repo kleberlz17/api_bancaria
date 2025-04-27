@@ -10,15 +10,18 @@ import org.springframework.stereotype.Service;
 import api.bancaria.model.Cliente;
 import api.bancaria.model.Conta;
 import api.bancaria.model.StatusConta;
+import api.bancaria.repository.ClienteRepository;
 import api.bancaria.repository.ContaRepository;
 
 @Service
 public class ContaService {
 
 	private final ContaRepository contaRepository;
+	private final ClienteRepository clienteRepository;
 	
-	public ContaService(ContaRepository contaRepository) {
+	public ContaService(ContaRepository contaRepository, ClienteRepository clienteRepository) {
 		this.contaRepository = contaRepository;
+		this.clienteRepository = clienteRepository;
 	}
 	
 	public Conta salvar(Conta conta) {
@@ -51,6 +54,11 @@ public class ContaService {
 		return contaRepository.findById(idConta)
 				.map(Conta::getCliente)
 				.orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+	}
+	
+	public Cliente buscarClientePorId(Long idCliente) {
+		return clienteRepository.findById(idCliente)
+				.orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 	}
 	
 }

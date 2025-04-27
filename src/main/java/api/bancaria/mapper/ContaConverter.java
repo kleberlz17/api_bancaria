@@ -12,7 +12,7 @@ public class ContaConverter {
 	//dtoParaEntity é construido um novo objeto a partir de uma fonte
 	//de dados separada, exigindo a leitura(get) e atribuição(set)de cada valor individualmente.
 	
-	public static Conta dtoParaEntidade(ContaDTO dto, Cliente cliente) {
+	public Conta dtoParaEntidade(ContaDTO dto, Cliente cliente) {
 		Conta conta = new Conta();
 		conta.setIdConta(dto.getIdConta());
 		conta.setAgencia(dto.getAgencia());
@@ -23,7 +23,7 @@ public class ContaConverter {
 		return conta;
 	}
 	
-	public static ContaDTO entidadeParaDto(Conta entidade) {
+	public ContaDTO entidadeParaDto(Conta entidade) {
 		return new ContaDTO(
 				entidade.getIdConta(),
 				entidade.getAgencia(),
