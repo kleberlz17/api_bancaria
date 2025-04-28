@@ -11,7 +11,7 @@ public class ClienteConverter {
 	//entidadeParaDTO já tem a fonte de dados completa e pode transferir diretamente para o novo objeto,
 	//dtoParaEntity é construido um novo objeto a partir de uma fonte
 	//de dados separada, exigindo a leitura(get) e atribuição(set)de cada valor individualmente.
-	public static Cliente dtoParaEntidade(ClienteDTO dto) {
+	public Cliente dtoParaEntidade(ClienteDTO dto) {
 		Cliente cliente = new Cliente();
 		cliente.setIdCliente(dto.getIdCliente());
 		cliente.setNomeCompleto(dto.getNomeCompleto());
@@ -23,7 +23,7 @@ public class ClienteConverter {
 		return cliente;
 	}
 	
-	public static ClienteDTO entidadeParaDto(Cliente entidade) {
+	public ClienteDTO entidadeParaDto(Cliente entidade) {
 		return new ClienteDTO(
 				entidade.getIdCliente(),
 				entidade.getNomeCompleto(),

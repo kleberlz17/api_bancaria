@@ -18,7 +18,7 @@ public class ClienteDTO {
 	private Long idCliente;
 	
 	@NotBlank(message = "Campo Obrigatório")
-	@Size(min = 3, max = 100, message = "campo fora do tamanho padrão")
+	@Size(min = 3, max = 100, message = "Campo fora do tamanho padrão")
 	private String nomeCompleto;
 	
 	@Pattern(regexp = "\\d{11}", message = "CPF deve conter exatamente 11 números")//Pattern = Padrão.
@@ -35,7 +35,7 @@ public class ClienteDTO {
 	private String telefone;
 	
 	@NotBlank(message = "Campo Obrigatório")
-	@Size(min = 5, max = 100, message = "campo fora do tamanho padrão" )
+	@Size(min = 5, max = 100, message = "Campo fora do tamanho padrão" )
 	private String endereco;
 	
 	public ClienteDTO (Long idCliente, String nomeCompleto, String cpf,

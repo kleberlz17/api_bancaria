@@ -60,8 +60,11 @@ public class ClienteService {
 	public Cliente alterarEndereco(Long idCliente, String enderecoNovo) {
 		Cliente cliente = clienteRepository.findById(idCliente)
 				.orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+		
 		cliente.setEndereco(enderecoNovo);
-		return clienteRepository.save(cliente);//Optei por manter  a lógica cheia aqui.
+		
+		return clienteRepository.save(cliente);
+		
 	}
 	
 

@@ -1,6 +1,6 @@
 package api.bancaria.controller;
 
-import java.math.BigDecimal;
+
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import api.bancaria.dto.ContaDTO;
+import api.bancaria.dto.NovoSaldoDTO;
+import api.bancaria.dto.NovoStatusDTO;
 import api.bancaria.mapper.ContaConverter;
 import api.bancaria.model.Cliente;
 import api.bancaria.model.Conta;
-import api.bancaria.model.StatusConta;
+
 import api.bancaria.service.ContaService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -63,11 +65,11 @@ public class ContaController {
 	}
 
 	@PutMapping("/{idConta}/saldo")
-	public ResponseEntity<Conta> atualizarSaldo(@PathVariable Long idConta, @RequestBody BigDecimal novoSaldo) {
+	public ResponseEntity<Conta> atualizarSaldo(@PathVariable Long idConta, @RequestBody @Valid NovoSaldoDTO novoSaldoDto) {
 		log.info("Atualizando o saldo da conta com o ID: {}", idConta);
 
 		try {
-			Conta contaAtualizada = contaService.atualizarSaldo(idConta, novoSaldo);
+			Conta contaAtualizada = contaService.atualizarSaldo(idConta, novoSaldoDto.getNovoSaldo());
 			return ResponseEntity.ok(contaAtualizada);
 		} catch (RuntimeException e) {
 			log.error("Erro ao atualizar o saldo: {}", e.getMessage());
@@ -77,11 +79,11 @@ public class ContaController {
 	}
 	
 	@PutMapping("/{idConta}/status")
-	public ResponseEntity<Conta> alterarStatus(@PathVariable Long idConta, @RequestBody StatusConta statusConta) {
+	public ResponseEntity<Conta> alterarStatus(@PathVariable Long idConta, @RequestBody @Valid NovoStatusDTO novoStatusDto) {
 		log.info("Alterando o status da conta com o ID: {}", idConta);
 		
 		try {
-			Conta statusAtualizado = contaService.alterarStatus(idConta, statusConta);
+			Conta statusAtualizado = contaService.alterarStatus(idConta, novoStatusDto.getStatusConta());
 			return ResponseEntity.ok(statusAtualizado);
 		} catch (RuntimeException e) {
 			log.error("Erro ao alterar o status da conta: {}", e.getMessage());
@@ -125,9 +127,7 @@ public class ContaController {
 		} catch (RuntimeException e ) {
 			log.error("Erro ao buscar o cliente: {}", e.getMessage());
 			return ResponseEntity.notFound().build();
-		}
-		
-		
-}
+		}		
+	}
 
 }

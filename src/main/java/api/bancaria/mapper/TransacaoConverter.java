@@ -13,7 +13,7 @@ public class TransacaoConverter {
 	//dtoParaEntity é construido um novo objeto a partir de uma fonte
 	//de dados separada, exigindo a leitura(get) e atribuição(set)de cada valor individualmente.
 	
-	public static Transacao dtoParaEntidade(TransacaoDTO transacaoDTO) {
+	public Transacao dtoParaEntidade(TransacaoDTO transacaoDTO) {
 		if (Objects.isNull(transacaoDTO)) {
 			return null;
 		}
@@ -27,7 +27,7 @@ public class TransacaoConverter {
 		return transacao;
 	}
 	
-	public static TransacaoDTO entidadeParaDTO(Transacao transacao) {
+	public TransacaoDTO entidadeParaDTO(Transacao transacao) {
 		if (Objects.isNull(transacao)) {
 			return null;
 		}
