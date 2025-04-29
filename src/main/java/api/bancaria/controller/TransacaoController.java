@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import api.bancaria.dto.TransacaoDTO;
 import api.bancaria.mapper.TransacaoConverter;
-import api.bancaria.model.Conta;
 import api.bancaria.model.TipoTransacao;
 import api.bancaria.model.Transacao;
-import api.bancaria.service.ContaService;
 import api.bancaria.service.TransacaoService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +29,12 @@ public class TransacaoController {
 	
 	private final TransacaoService transacaoService;
 	private final TransacaoConverter transacaoConverter;
-	private final ContaService contaService;
 	
-	public TransacaoController(TransacaoService transacaoService, TransacaoConverter transacaoConverter, ContaService contaService) {
+	
+	public TransacaoController(TransacaoService transacaoService, TransacaoConverter transacaoConverter) {
 		this.transacaoService = transacaoService;
 		this.transacaoConverter = transacaoConverter;
-		this.contaService = contaService;
+		
 	}
 	
 	@PostMapping
@@ -132,19 +130,13 @@ public class TransacaoController {
 		log.info("Iniciando transferência de conta {} para conta {} no valor de {}",
 				transacaoDTO.getContaOrigemId(), transacaoDTO.getContaDestinoId(), transacaoDTO.getValorMovimentado());
 		
-		//Buscando as contas.
-		Conta origem = contaService.obterPorId(transacaoDTO.getContaOrigemId())
-				.orElseThrow(() -> new RuntimeException("Conta de origem não encontrada"));
+		//Aqui chama o service diretamente com os IDs, não precisa buscar Conta aqui.
+		Transacao transacao = transacaoService.realizarTransferencia(
+				transacaoDTO.getContaOrigemId(),
+				transacaoDTO.getContaDestinoId(),
+				transacaoDTO.getValorMovimentado());
 		
-		Conta destino = contaService.obterPorId(transacaoDTO.getContaDestinoId())
-				.orElseThrow(()-> new RuntimeException("Conta de destino não encontrada"));
-		
-		//Realizando a transferência
-		Transacao transacao = transacaoService.realizarTransferencia(origem, destino, transacaoDTO.getValorMovimentado());
-		
-		//Convertendo a transação salva para o DTO
 		TransacaoDTO respostaDTO = transacaoConverter.entidadeParaDTO(transacao);
-		
 		return ResponseEntity.ok(respostaDTO);
 	}
 	
