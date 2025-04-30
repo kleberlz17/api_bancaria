@@ -39,5 +39,11 @@ public class GlobalExceptionHandler {
 		ErroResposta erro = new ErroResposta("Erro interno: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Erro inesperado no servidor");
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(erro);
 	}
+	
+	@ExceptionHandler(ClienteNaoEncontradoException.class)
+	public ResponseEntity<ErroResposta> tratarClienteNaoEncontrada(ClienteNaoEncontradoException ex) {
+		ErroResposta erro = new ErroResposta(ex.getMessage(), HttpStatus.NOT_FOUND.value(), "Nenhum cliente encontrado");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
+	}
 
 }

@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import org.springframework.stereotype.Service;
 
+import api.bancaria.exception.ClienteNaoEncontradoException;
 import api.bancaria.model.Cliente;
 import api.bancaria.repository.ClienteRepository;
 import api.bancaria.validator.ClienteValidator;
@@ -44,7 +45,7 @@ public class ClienteService {
 	
 	private Cliente atualizarCampo(Long idCliente, Consumer<Cliente> atualizador) {
 		Cliente cliente = clienteRepository.findById(idCliente)
-				.orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+				.orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
 		atualizador.accept(cliente);
 		return clienteRepository.save(cliente);//Utilitário pra evitar repetição nos métodos abaixo.
 	}
@@ -59,7 +60,7 @@ public class ClienteService {
 	
 	public Cliente alterarEndereco(Long idCliente, String enderecoNovo) {
 		Cliente cliente = clienteRepository.findById(idCliente)
-				.orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+				.orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
 		
 		cliente.setEndereco(enderecoNovo);
 		

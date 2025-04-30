@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import api.bancaria.exception.ClienteNaoEncontradoException;
+import api.bancaria.exception.ContaNaoEncontradaException;
 import api.bancaria.model.Cliente;
 import api.bancaria.model.Conta;
 import api.bancaria.model.StatusConta;
@@ -34,31 +36,35 @@ public class ContaService {
 	
 	public Conta atualizarSaldo(Long idConta, BigDecimal novoSaldo) {
 		Conta conta = contaRepository.findById(idConta)
-				.orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+				.orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada"));
 		conta.setSaldoAtual(novoSaldo);
 		return contaRepository.save(conta);
 	}
 	
 	public Conta alterarStatus(Long idConta, StatusConta novoStatus) {
 		Conta conta = contaRepository.findById(idConta)
-				.orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+				.orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada"));
 		conta.setStatusConta(novoStatus);
 		return contaRepository.save(conta);
 	}
 	
 	public List<Conta> buscarPorCliente(Long idCliente) {//Buscando Contas pelo id do cliente.
-		return contaRepository.findByClienteId(idCliente);
+		List<Conta> lista = contaRepository.findByClienteId(idCliente);
+		if(lista.isEmpty()) {
+			throw new ClienteNaoEncontradoException("ID do cliente inexistente");
+		}
+		return lista;
 	}
 	
 	public Cliente buscarClientePorIdConta(Long idConta) {//Buscando Cliente pelo id da conta.
 		return contaRepository.findById(idConta)
 				.map(Conta::getCliente)
-				.orElseThrow(() -> new RuntimeException("Conta não encontrada"));
+				.orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada"));
 	}
 	
 	public Cliente buscarClientePorId(Long idCliente) {
 		return clienteRepository.findById(idCliente)
-				.orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+				.orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
 	}
 	
 }
