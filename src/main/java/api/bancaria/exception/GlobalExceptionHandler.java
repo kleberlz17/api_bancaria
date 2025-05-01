@@ -45,5 +45,24 @@ public class GlobalExceptionHandler {
 		ErroResposta erro = new ErroResposta(ex.getMessage(), HttpStatus.NOT_FOUND.value(), "Nenhum cliente encontrado");
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
 	}
+	
+	@ExceptionHandler(EmailDuplicadoException.class)
+	public ResponseEntity<ErroResposta> handleEmailDuplicado(EmailDuplicadoException ex) {
+		ErroResposta erro = new ErroResposta(ex.getMessage(), HttpStatus.CONFLICT.value(), "Email já cadastrado");
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
+	}
+	
+	@ExceptionHandler(TelefoneDuplicadoException.class)
+	public ResponseEntity<ErroResposta> handleTelefoneDuplicado(TelefoneDuplicadoException ex) {
+		ErroResposta erro = new ErroResposta(ex.getMessage(), HttpStatus.CONFLICT.value(), "Telefone já cadastrado");
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
+	}
+	
+	@ExceptionHandler(CpfDuplicadoException.class)
+	public ResponseEntity<ErroResposta> handleCpfDuplicado(CpfDuplicadoException ex) {
+		ErroResposta erro = new ErroResposta(ex.getMessage(), HttpStatus.CONFLICT.value(), "CPF já cadastrado");
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
+		
+	}
 
 }

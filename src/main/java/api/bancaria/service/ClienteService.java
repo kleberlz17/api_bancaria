@@ -23,6 +23,14 @@ public class ClienteService {
 	}
 	
 	public Cliente salvar(Cliente cliente) {
+		if(cliente.getCpf() == null || cliente.getCpf().isEmpty()) {
+			throw new IllegalArgumentException("CPF não pode ser nulo ou vazio");
+		}
+		
+		if(cliente.getEmail() == null || cliente.getEmail().isEmpty()) {
+			throw new IllegalArgumentException("Email não pode ser nulo ou vazio");
+		}
+		
 		clienteValidator.validarCliente(cliente);
 		return clienteRepository.save(cliente);
 	}
@@ -51,11 +59,22 @@ public class ClienteService {
 	}
 	
 	public Cliente alterarEmail(Long idCliente, String emailNovo) {
-		return atualizarCampo(idCliente, cliente -> cliente.setEmail(emailNovo));
+		if (emailNovo == null || emailNovo.isEmpty()) {
+			throw new IllegalArgumentException("Email não pode ser nulo ou vazio");
+		}
+		return atualizarCampo(idCliente, cliente -> { cliente.setEmail(emailNovo);
+			clienteValidator.validarEmail(cliente);
+		});
 	}
 	
 	public Cliente alterarTelefone(Long idCliente, String telefoneNovo) {
-		return atualizarCampo(idCliente, cliente -> cliente.setTelefone(telefoneNovo));
+		if(telefoneNovo == null || telefoneNovo.isEmpty()) {
+			throw new IllegalArgumentException("Telefone não pode ser nulo ou vazio");
+		}
+		
+		return atualizarCampo(idCliente, cliente -> { cliente.setTelefone(telefoneNovo);
+		clienteValidator.validarTelefone(cliente);
+		});
 	}
 	
 	public Cliente alterarEndereco(Long idCliente, String enderecoNovo) {

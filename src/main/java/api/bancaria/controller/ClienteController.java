@@ -104,29 +104,15 @@ public class ClienteController {
 	@PutMapping("/{idCliente}/novoemail")
 	public ResponseEntity<Cliente> alterarEmail(@PathVariable Long idCliente, @RequestBody @Valid NovoEmailDTO novoEmailDto) {
 		log.info("Alterando o email do cliente com o ID: {}", idCliente);
-		
-		try {
-			Cliente emailAlterado = clienteService.alterarEmail(idCliente, novoEmailDto.getEmail());
-			return ResponseEntity.ok(emailAlterado);
-		} catch (RuntimeException e) {
-			log.error("Erro ao alterar o email do cliente: {}", e.getMessage());
-			return ResponseEntity.notFound().build();
-		}
-
+		Cliente emailAlterado = clienteService.alterarEmail(idCliente, novoEmailDto.getEmail());
+		return ResponseEntity.ok(emailAlterado);
 	}
 	
 	@PutMapping("/{idCliente}/novotelefone")
 	public ResponseEntity<Cliente> alterarTelefone(@PathVariable Long idCliente, @RequestBody @Valid NovoTelefoneDTO novoTelefoneDto) {
 		log.info("Alterando o telefone do cliente com o ID: {}", idCliente);
-		
-		try {
-			Cliente telefoneAlterado = clienteService.alterarTelefone(idCliente, novoTelefoneDto.getTelefone());
-			return ResponseEntity.ok(telefoneAlterado);
-		} catch (RuntimeException e) {
-			log.error("Erro ao alterar o telefone do cliente: {}", e.getMessage());
-			return ResponseEntity.notFound().build();
-		}
-		
+		Cliente telefoneAlterado = clienteService.alterarTelefone(idCliente, novoTelefoneDto.getTelefone());
+		return ResponseEntity.ok(telefoneAlterado);
 	}
 	
 	@PutMapping("/{idCliente}/novoendereco")
