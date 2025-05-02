@@ -12,27 +12,31 @@ public class TransacaoDTO {
 	@NotNull(message = "Campo obrigatório")
 	@Min(1)
 	private Long idTransacao;
-	
+
 	@NotNull(message = "Informe o tipo de transação")
 	private TipoTransacao tipoTransacao;
-	
+
 	@NotNull(message = "Valor movimentado não pode ser nulo")
 	@DecimalMin("0.01")
 	private BigDecimal valorMovimentado;
-	
+
 	private LocalDateTime dataTransacao;
-	
+
 	@NotNull(message = "Informe o ID da conta de origem da transação")
 	private Long contaOrigemId;
-	
+
 	@NotNull(message = "Informe o ID da conta de destino da transação")
 	private Long contaDestinoId;
-	
-	public TransacaoDTO(Long idTransacao, TipoTransacao tipoTransacao,
-			BigDecimal valorMovimentado, LocalDateTime dataTransacao,
-			Long contaOrigemId, Long contaDestinoId) {
-		
-		
+
+	public TransacaoDTO(Long idTransacao, TipoTransacao tipoTransacao, BigDecimal valorMovimentado,
+			LocalDateTime dataTransacao, Long contaOrigemId, Long contaDestinoId) {
+		this.idTransacao = idTransacao;
+		this.tipoTransacao = tipoTransacao;
+		this.valorMovimentado = valorMovimentado;
+		this.dataTransacao = dataTransacao;
+		this.contaOrigemId = contaOrigemId;
+		this.contaDestinoId = contaDestinoId;
+
 	}
 
 	public Long getIdTransacao() {
@@ -82,5 +86,5 @@ public class TransacaoDTO {
 	public void setContaDestinoId(Long contaDestinoId) {
 		this.contaDestinoId = contaDestinoId;
 	}
-	
+
 }

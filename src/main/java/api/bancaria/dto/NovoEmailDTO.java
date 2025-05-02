@@ -9,6 +9,10 @@ public class NovoEmailDTO {
 	@Email(message = "O email fornecido é inválido.")
 	private String email;
 
+	public NovoEmailDTO(String email) {
+		this.email = email;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -16,6 +20,5 @@ public class NovoEmailDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
+
 }
