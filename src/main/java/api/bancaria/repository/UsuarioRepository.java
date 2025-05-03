@@ -8,7 +8,7 @@ import api.bancaria.model.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-	Optional<Usuario> findByIdUser(String idUser);
+	Optional<Usuario> findByIdUser(Long idUser);
 
 	Optional<Usuario> findByLogin(String login);
 

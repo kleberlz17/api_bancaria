@@ -62,6 +62,7 @@ public class ClienteService {
 		if (emailNovo == null || emailNovo.isEmpty()) {
 			throw new IllegalArgumentException("Email não pode ser nulo ou vazio");
 		}
+		
 		return atualizarCampo(idCliente, cliente -> { cliente.setEmail(emailNovo);
 			clienteValidator.validarEmail(cliente);
 		});
@@ -77,7 +78,7 @@ public class ClienteService {
 		});
 	}
 	
-	public Cliente alterarEndereco(Long idCliente, String enderecoNovo) {
+	public Cliente alterarEndereco(Long idCliente, String enderecoNovo) { //Não achei necessário uso de um validator aqui.
 		Cliente cliente = clienteRepository.findById(idCliente)
 				.orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
 		

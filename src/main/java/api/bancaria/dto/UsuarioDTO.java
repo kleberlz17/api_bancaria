@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class UsuarioDTO {
 
@@ -17,6 +18,7 @@ public class UsuarioDTO {
 	private Long idUser;
 
 	@NotBlank(message = "Campo obrigatório")
+	@Size(min = 6, max = 15, message = "O login do usuário deve ter entre 6 a 15 caracteres")
 	private String login;
 
 	@NotBlank(message = "Campo obrigatório")
@@ -24,6 +26,7 @@ public class UsuarioDTO {
 	private String email;
 
 	@NotBlank(message = "Campo obrigatório")
+	@Size(min = 6, max = 15, message = "A senha deve ter entre 6 a 15 caracteres")
 	private String senha;
 
 	@NotBlank(message = "Campo obrigatório")

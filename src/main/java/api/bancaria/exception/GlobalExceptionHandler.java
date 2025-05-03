@@ -62,6 +62,18 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErroResposta> handleCpfDuplicado(CpfDuplicadoException ex) {
 		ErroResposta erro = new ErroResposta(ex.getMessage(), HttpStatus.CONFLICT.value(), "CPF já cadastrado");
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
+	}
+	
+	@ExceptionHandler(LoginDuplicadoException.class)
+	public ResponseEntity<ErroResposta> handleLoginDuplicado(LoginDuplicadoException ex) {
+		ErroResposta erro = new ErroResposta(ex.getMessage(), HttpStatus.CONFLICT.value(), "Login já cadastrado");
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(erro);
+	}
+	
+	@ExceptionHandler(UsuarioNaoEncontradoException.class)
+	public ResponseEntity<ErroResposta> tratarUsuarioNaoEncontrado(UsuarioNaoEncontradoException ex) {
+		ErroResposta erro = new ErroResposta(ex.getMessage(), HttpStatus.NOT_FOUND.value(), "Nenhum usuário encontrado");
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
 		
 	}
 
