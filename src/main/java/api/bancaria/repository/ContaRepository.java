@@ -9,8 +9,9 @@ import api.bancaria.model.Conta;
 
 public interface ContaRepository extends JpaRepository<Conta, Long> {
 	
-	
-	List<Conta> findByClienteId(Long idCliente); //Procurando todas as contas de um determinado cliente.
+	// Cliente = nome do atributo da entidade Conta(relacionado ao dono da conta).
+	// IdCliente = nome do atributo da entidade Cliente.
+	List<Conta> findByCliente_IdCliente(Long idCliente); //Procurando todas as contas de um determinado cliente.
 	
 	Optional<Conta> findById(Long idConta);
 }

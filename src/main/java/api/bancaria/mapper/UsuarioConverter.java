@@ -1,8 +1,11 @@
 package api.bancaria.mapper;
 
+import org.springframework.stereotype.Component;
+
 import api.bancaria.dto.UsuarioDTO;
 import api.bancaria.model.Usuario;
 
+@Component
 public class UsuarioConverter {
 
 	

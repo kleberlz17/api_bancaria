@@ -63,10 +63,10 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/nome")
-	public ResponseEntity<Cliente> buscarPorNome(@RequestParam String nomeCompleto) {
-		log.info("Buscando cliente com o nome: {}", nomeCompleto);
+	public ResponseEntity<Cliente> buscarPorNome(@RequestParam String nome) {
+		log.info("Buscando cliente com o nome: {}", nome);
 		
-		Optional<Cliente> clienteNome = clienteService.buscarPorNome(nomeCompleto);
+		Optional<Cliente> clienteNome = clienteService.buscarPorNome(nome);
 		
 		if(clienteNome.isPresent()) {
 			return ResponseEntity.ok(clienteNome.get());
@@ -89,10 +89,10 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/dadoscliente")
-	public ResponseEntity<Cliente> buscarPorNomeAndCpfAndNascimento(@RequestParam String nomeCompleto, @RequestParam String cpf, @RequestParam LocalDate dataNascimento) {
-		log.info("Buscando cliente: {} {] {}", nomeCompleto, cpf, dataNascimento);
+	public ResponseEntity<Cliente> buscarPorNomeAndCpfAndNascimento(@RequestParam String nome, @RequestParam String cpf, @RequestParam LocalDate dataNascimento) {
+		log.info("Buscando cliente: {} {] {}", nome, cpf, dataNascimento);
 		
-		Optional<Cliente> dadosCliente = clienteService.buscarPorNomeAndCpfAndNascimento(nomeCompleto, cpf, dataNascimento);
+		Optional<Cliente> dadosCliente = clienteService.buscarPorNomeAndCpfAndDataNascimento(nome, cpf, dataNascimento);
 		
 		if(dadosCliente.isPresent()) {
 			return ResponseEntity.ok(dadosCliente.get());

@@ -49,7 +49,7 @@ public class ContaService {
 	}
 	
 	public List<Conta> buscarPorCliente(Long idCliente) {//Buscando Contas pelo id do cliente.
-		List<Conta> lista = contaRepository.findByClienteId(idCliente);
+		List<Conta> lista = contaRepository.findByCliente_IdCliente(idCliente);
 		if(lista.isEmpty()) {
 			throw new ClienteNaoEncontradoException("ID do cliente inexistente");
 		}

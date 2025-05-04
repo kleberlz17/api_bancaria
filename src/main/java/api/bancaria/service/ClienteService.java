@@ -39,16 +39,16 @@ public class ClienteService {
 		return clienteRepository.findById(idCliente);
 	}
 	
-	public Optional<Cliente> buscarPorNome(String nomeCompleto){
-		return clienteRepository.findByNome(nomeCompleto);
+	public Optional<Cliente> buscarPorNome(String nome){
+		return clienteRepository.findByNome(nome);
 	}
 	
 	public Optional<Cliente> buscarPorCpf(String cpf) {
-		return clienteRepository.findByCPF(cpf);
+		return clienteRepository.findByCpf(cpf);
 	}
 	
-	public Optional<Cliente> buscarPorNomeAndCpfAndNascimento(String nomeCompleto, String cpf, LocalDate dataNascimento){
-		return clienteRepository.findByNomeAndCpfAndNascimento(nomeCompleto, cpf, dataNascimento);
+	public Optional<Cliente> buscarPorNomeAndCpfAndDataNascimento(String nome, String cpf, LocalDate dataNascimento){
+		return clienteRepository.findByNomeAndCpfAndDataNascimento(nome, cpf, dataNascimento);
 	}
 	
 	private Cliente atualizarCampo(Long idCliente, Consumer<Cliente> atualizador) {

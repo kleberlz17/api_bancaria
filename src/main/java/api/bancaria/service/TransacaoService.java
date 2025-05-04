@@ -55,7 +55,7 @@ public class TransacaoService {
 	
 
 	public List<Transacao> listarTransacoesConta(Long idConta) {
-		List<Transacao> lista =  transacaoRepository.findByContaOrigemIdOrContaDestinoId(idConta, idConta);
+		List<Transacao> lista =  transacaoRepository.findByContaOrigem_IdContaOrContaDestino_IdConta(idConta, idConta);
 		if (lista.isEmpty()) {
 			throw new TransacaoNaoEncontradaException("Nenhuma transação encontrada para a conta com ID: " + idConta);
 		}

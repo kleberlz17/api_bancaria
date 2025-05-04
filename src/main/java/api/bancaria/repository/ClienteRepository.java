@@ -10,11 +10,11 @@ import api.bancaria.model.Cliente;
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 	
 
-	Optional<Cliente> findByNome(String nomeCompleto);
+	Optional<Cliente> findByNome(String nome);
 
-	Optional<Cliente> findByCPF(String cpf);
+	Optional<Cliente> findByCpf(String cpf);
 
-	Optional<Cliente> findByNomeAndCpfAndNascimento(String nomeCompleto, String cpf, LocalDate dataNascimento);
+	Optional<Cliente> findByNomeAndCpfAndDataNascimento(String nome, String cpf, LocalDate dataNascimento);
 	
 	Optional<Cliente> findByEmail(String email);
 	

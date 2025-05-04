@@ -19,7 +19,7 @@ public class ClienteDTO {
 	
 	@NotBlank(message = "Campo Obrigatório")
 	@Size(min = 3, max = 100, message = "Campo fora do tamanho padrão")
-	private String nomeCompleto;
+	private String nome;
 	
 	@Pattern(regexp = "\\d{11}", message = "CPF deve conter exatamente 11 números")//Pattern = Padrão.
 	private String cpf;
@@ -38,11 +38,11 @@ public class ClienteDTO {
 	@Size(min = 5, max = 100, message = "Campo fora do tamanho padrão" )
 	private String endereco;
 	
-	public ClienteDTO (Long idCliente, String nomeCompleto, String cpf,
+	public ClienteDTO (Long idCliente, String nome, String cpf,
 			LocalDate dataNascimento, String email, String telefone,String endereco) {
 		
 		this.idCliente = idCliente;
-		this.nomeCompleto = nomeCompleto;
+		this.nome = nome;
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
 		this.email = email;
@@ -58,12 +58,12 @@ public class ClienteDTO {
 		this.idCliente = idCliente;
 	}
 
-	public String getNomeCompleto() {
-		return nomeCompleto;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setNomeCompleto(String nomeCompleto) {
-		this.nomeCompleto = nomeCompleto;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getCpf() {

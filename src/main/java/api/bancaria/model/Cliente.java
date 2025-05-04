@@ -20,7 +20,7 @@ public class Cliente {
 	private Long idCliente;
 
 	@Column(name = "nome", length = 150, nullable = false)
-	private String nomeCompleto;
+	private String nome;
 
 	@Column(name = "cpf", nullable = false, unique = true)
 	private String cpf;
@@ -48,12 +48,12 @@ public class Cliente {
 		this.idCliente = idCliente;
 	}
 
-	public String getNomeCompleto() {
-		return nomeCompleto;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setNomeCompleto(String nomeCompleto) {
-		this.nomeCompleto = nomeCompleto;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getCpf() {
@@ -106,7 +106,7 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [idCliente=" + idCliente + ", nomeCompleto=" + nomeCompleto + ", cpf=" + cpf
+		return "Cliente [idCliente=" + idCliente + ", nomeCompleto=" + nome + ", cpf=" + cpf
 				+ ", dataNascimento=" + dataNascimento + ", email=" + email + ", telefone=" + telefone + ", endereco="
 				+ endereco + ", contas=" + contas + "]";
 	}

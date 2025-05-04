@@ -18,7 +18,8 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
 	
 	List<Transacao> findByDataTransacao(LocalDateTime dataTransacao);
 	
-	List<Transacao> findByContaOrigemIdOrContaDestinoId(Long contaOrigemId, Long contaDestinoId);
+	List<Transacao> findByContaOrigem_IdContaOrContaDestino_IdConta(Long contaOrigemId, Long contaDestinoId);
+
 	
 	List<Transacao> findByDataTransacaoBetween(LocalDateTime transacaoInicio, LocalDateTime transacaoFim);
 	

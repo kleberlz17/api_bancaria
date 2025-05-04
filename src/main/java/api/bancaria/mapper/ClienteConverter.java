@@ -14,7 +14,7 @@ public class ClienteConverter {
 	public Cliente dtoParaEntidade(ClienteDTO dto) {
 		Cliente cliente = new Cliente();
 		cliente.setIdCliente(dto.getIdCliente());
-		cliente.setNomeCompleto(dto.getNomeCompleto());
+		cliente.setNome(dto.getNome());
 		cliente.setCpf(dto.getCpf());
 		cliente.setDataNascimento(dto.getDataNascimento());
 		cliente.setEmail(dto.getEmail());
@@ -26,7 +26,7 @@ public class ClienteConverter {
 	public ClienteDTO entidadeParaDto(Cliente entidade) {
 		return new ClienteDTO(
 				entidade.getIdCliente(),
-				entidade.getNomeCompleto(),
+				entidade.getNome(),
 				entidade.getCpf(),
 				entidade.getDataNascimento(),
 				entidade.getEmail(),
