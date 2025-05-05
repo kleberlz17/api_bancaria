@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class TransacaoDTO {
 
-	@NotNull(message = "Campo obrigatório")
+	
 	@Min(1)
 	private Long idTransacao;
 

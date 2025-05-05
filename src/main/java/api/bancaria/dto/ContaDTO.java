@@ -13,7 +13,7 @@ import jakarta.validation.constraints.Pattern;
 
 public class ContaDTO {
 
-	@NotNull(message = "Campo Obrigatório")
+
 	@Min(1)
 	@Max(999999)
 	private Long idConta;
@@ -22,7 +22,7 @@ public class ContaDTO {
 	@Pattern(regexp = "\\d{4}", message = "Agência deve conter 4 numeros")
 	private String agencia;
 	
-	@NotNull(message = "Saldo não pode ser nulo")
+	
 	private BigDecimal saldoAtual;
 	
 	@NotNull(message = "Informe o tipo da conta")

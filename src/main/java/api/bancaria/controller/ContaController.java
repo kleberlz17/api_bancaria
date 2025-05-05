@@ -91,8 +91,8 @@ public class ContaController {
 		}
 	}
 	
-	@GetMapping("/{idConta}/contascliente")
-	public ResponseEntity<List<Conta>> buscarPorCliente(@PathVariable Long idCliente) {
+	@GetMapping("/{idCliente}/contascliente")
+	public ResponseEntity<List<Conta>> buscarPorCliente(@PathVariable("idCliente") Long idCliente) {
 		log.info("Buscando contas pelo ID do Cliente {}", idCliente);
 		 
 		List<Conta> contas = contaService.buscarPorCliente(idCliente);
@@ -102,19 +102,6 @@ public class ContaController {
 			return ResponseEntity.ok(contas);
 		}
 		
-	}
-	
-	@GetMapping("/{idConta}/clientedaconta")
-	public ResponseEntity<Cliente> buscarClientePorIdConta(@PathVariable Long idConta) {
-		log.info("Buscando cliente pela conta com ID: {}", idConta);
-		
-		try {
-			Cliente clienteBuscado = contaService.buscarClientePorIdConta(idConta);
-			return ResponseEntity.ok(clienteBuscado);
-		} catch (RuntimeException e) {
-			log.error("Erro ao buscar cliente: {}", e.getMessage());
-			return ResponseEntity.notFound().build();
-		}
 	}
 	
 	@GetMapping("/{idCliente}/cliente")

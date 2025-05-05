@@ -2,6 +2,7 @@ package api.bancaria.controller;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import api.bancaria.dto.ClienteDTO;
@@ -62,21 +62,21 @@ public class ClienteController {
 		}	
 	}
 	
-	@GetMapping("/nome")
-	public ResponseEntity<Cliente> buscarPorNome(@RequestParam String nome) {
+	@GetMapping("/nome/{nome}")
+	public ResponseEntity<List<Cliente>> buscarPorNome(@PathVariable String nome) {
 		log.info("Buscando cliente com o nome: {}", nome);
 		
-		Optional<Cliente> clienteNome = clienteService.buscarPorNome(nome);
+		List<Cliente> clienteNome = clienteService.buscarPorNome(nome);
 		
-		if(clienteNome.isPresent()) {
-			return ResponseEntity.ok(clienteNome.get());
-		} else {
+		if(clienteNome.isEmpty()) {
 			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok(clienteNome);
 		}
 	}
 	
-	@GetMapping("/cpf")
-	public ResponseEntity<Cliente> buscarPorCpf(@RequestParam String cpf) {
+	@GetMapping("/cpf/{cpf}")
+	public ResponseEntity<Cliente> buscarPorCpf(@PathVariable String cpf) {
 		log.info("Buscando cliente com o CPF: {}", cpf);
 		
 		Optional<Cliente> cpfCliente = clienteService.buscarPorCpf(cpf);
@@ -88,8 +88,8 @@ public class ClienteController {
 		}
 	}
 	
-	@GetMapping("/dadoscliente")
-	public ResponseEntity<Cliente> buscarPorNomeAndCpfAndNascimento(@RequestParam String nome, @RequestParam String cpf, @RequestParam LocalDate dataNascimento) {
+	@GetMapping("/dadoscliente/{nome}/{cpf}/{dataNascimento}")
+	public ResponseEntity<Cliente> buscarPorNomeAndCpfAndNascimento(@PathVariable String nome, @PathVariable String cpf, @PathVariable LocalDate dataNascimento) {
 		log.info("Buscando cliente: {} {] {}", nome, cpf, dataNascimento);
 		
 		Optional<Cliente> dadosCliente = clienteService.buscarPorNomeAndCpfAndDataNascimento(nome, cpf, dataNascimento);

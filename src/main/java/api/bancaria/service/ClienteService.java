@@ -1,6 +1,7 @@
 package api.bancaria.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -10,8 +11,10 @@ import api.bancaria.exception.ClienteNaoEncontradoException;
 import api.bancaria.model.Cliente;
 import api.bancaria.repository.ClienteRepository;
 import api.bancaria.validator.ClienteValidator;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class ClienteService {
 
 	private final ClienteRepository clienteRepository;
@@ -39,16 +42,18 @@ public class ClienteService {
 		return clienteRepository.findById(idCliente);
 	}
 	
-	public Optional<Cliente> buscarPorNome(String nome){
-		return clienteRepository.findByNome(nome);
+	public List<Cliente> buscarPorNome(String nome){
+		List<Cliente> clientes = clienteRepository.findByNomeContainingIgnoreCase(nome);
+		log.info("Cliente encontrados: {}", clientes.size());
+		return clientes;
 	}
 	
 	public Optional<Cliente> buscarPorCpf(String cpf) {
-		return clienteRepository.findByCpf(cpf);
+		return clienteRepository.findByCpfContainingIgnoreCase(cpf);
 	}
 	
 	public Optional<Cliente> buscarPorNomeAndCpfAndDataNascimento(String nome, String cpf, LocalDate dataNascimento){
-		return clienteRepository.findByNomeAndCpfAndDataNascimento(nome, cpf, dataNascimento);
+		return clienteRepository.findByNomeContainingIgnoreCaseAndCpfContainingIgnoreCaseAndDataNascimento(nome, cpf, dataNascimento);
 	}
 	
 	private Cliente atualizarCampo(Long idCliente, Consumer<Cliente> atualizador) {

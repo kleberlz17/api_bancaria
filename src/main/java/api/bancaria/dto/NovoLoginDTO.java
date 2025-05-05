@@ -9,6 +9,10 @@ public class NovoLoginDTO {
 	@Size(min = 6, max = 15, message = "O novo login de usuário deve ter entre 6 e 15 caracteres")
 	private String login;
 	
+	public NovoLoginDTO() {//Jackson depende dele pra criar a instancia do DTO quando converte o JSON(de fora) em um objeto.
+		
+	}
+	
 	public NovoLoginDTO(String login) {
 		this.login = login;
 	}

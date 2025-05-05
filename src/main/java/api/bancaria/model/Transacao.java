@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 
 @Entity
 public class Transacao {
@@ -39,6 +40,13 @@ public class Transacao {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "conta_destino_id", nullable = false)
 	private Conta contaDestino;
+	
+	@PrePersist
+	public void prePersist() {
+		if(this.dataTransacao == null) {
+			this.dataTransacao = LocalDateTime.now(); // Define hora e data atual antes de persistir
+		}
+	}
 
 	public Long getIdTransacao() {
 		return idTransacao;

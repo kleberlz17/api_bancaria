@@ -1,15 +1,19 @@
 package api.bancaria.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import api.bancaria.dto.TransacaoDTO;
 import api.bancaria.exception.ContaNaoEncontradaException;
 import api.bancaria.exception.SaldoInsuficienteException;
 import api.bancaria.exception.TransacaoNaoEncontradaException;
+import api.bancaria.mapper.TransacaoConverter;
 import api.bancaria.model.Conta;
 import api.bancaria.model.TipoTransacao;
 import api.bancaria.model.Transacao;
@@ -21,10 +25,12 @@ public class TransacaoService {
 
 	private final TransacaoRepository transacaoRepository;
 	private final ContaRepository contaRepository;
+	private final TransacaoConverter transacaoConverter;
 
-	public TransacaoService(TransacaoRepository transacaoRepository, ContaRepository contaRepository) {
+	public TransacaoService(TransacaoRepository transacaoRepository, ContaRepository contaRepository, TransacaoConverter transacaoConverter) {
 		this.transacaoRepository = transacaoRepository;
 		this.contaRepository = contaRepository;
+		this.transacaoConverter = transacaoConverter;
 
 	}
 
@@ -32,50 +38,68 @@ public class TransacaoService {
 		return transacaoRepository.save(transacao);
 	}
 
-	public Optional<Transacao> obterPorId(Long idTransacao) {
-		return transacaoRepository.findById(idTransacao);
+	public Optional<TransacaoDTO> obterPorId(Long idTransacao) {
+		//tem que carretar contaOrigem e contaDestino antes de retornar Transacao pq o hibernate está LAZY
+		//fora da sessão ele não consegue mais acessar elas e causa  erro no Hibernate, entao esse método
+		//deve garantir esse carregamento antes.
+		Optional<Transacao> transacaoOpt = transacaoRepository.findById(idTransacao);
+		
+		if(transacaoOpt.isPresent()) {
+			//Converte Transacao para TransacaoDTO
+			TransacaoDTO transacaoDTO = transacaoConverter.entidadeParaDTO(transacaoOpt.get());
+			return Optional.of(transacaoDTO);
+		} else {
+			return Optional.empty();
+		}
 	}
 
-	public List<Transacao> obterPorValorMovimentado(BigDecimal valorMovimentado) {
-		List<Transacao> lista = transacaoRepository.findByValorMovimentado(valorMovimentado);
-		if (lista.isEmpty()) {
-			throw new TransacaoNaoEncontradaException("Nenhuma transação encontrada com o valor movimentado: " + valorMovimentado);
-		}
-		return lista;
+	public List<TransacaoDTO> obterPorValorMovimentado(BigDecimal valorMovimentado) {
+		List<Transacao> transacoes = transacaoRepository.findByValorMovimentado(valorMovimentado);
+		return transacoes.stream()
+				.map(transacaoConverter::entidadeParaDTO)
+				.toList();
 		
 	}
 
-	public List<Transacao> obterDataTransacao(LocalDateTime dataTransacao) {
-		List<Transacao> lista = transacaoRepository.findByDataTransacao(dataTransacao);
-		if (lista.isEmpty()) {
-			throw new TransacaoNaoEncontradaException("Nenhuma transação encontrada na data: " + dataTransacao);
-		}
-		return lista;
+	public List<TransacaoDTO> obterDataTransacao(LocalDate dataTransacao) {
+		List<Transacao> datas = transacaoRepository.findByDataTransacaoOnly(dataTransacao);
+		return datas.stream()
+				.map(transacaoConverter::entidadeParaDTO)
+				.collect(Collectors.toList());
 	}
 	
 
-	public List<Transacao> listarTransacoesConta(Long idConta) {
+	public List<TransacaoDTO> listarTransacoesConta(Long idConta) {
 		List<Transacao> lista =  transacaoRepository.findByContaOrigem_IdContaOrContaDestino_IdConta(idConta, idConta);
 		if (lista.isEmpty()) {
 			throw new TransacaoNaoEncontradaException("Nenhuma transação encontrada para a conta com ID: " + idConta);
 		}
-		return lista;
+		return lista.stream()
+				.map(transacaoConverter::entidadeParaDTO)
+				.collect(Collectors.toList());// coleta todos os DTOS convertidos em uma lista.
 	}
 
-	public List<Transacao> listarPorPeriodo(LocalDateTime inicio, LocalDateTime fim) {
+	public List<TransacaoDTO> listarPorPeriodo(LocalDate inicio, LocalDate fim) {
+		
 		List<Transacao> lista =  transacaoRepository.findByDataTransacaoBetween(inicio, fim);
 		if (lista.isEmpty()) {
 			throw new TransacaoNaoEncontradaException("Nenhuma transação encontrada entre " + inicio + " e " + fim);
 		}
-		return lista;
+		// Convertendo a lista de entidades transacao para DTOs novamente.
+		return lista.stream()
+				.map(transacaoConverter::entidadeParaDTO)
+				.collect(Collectors.toList());
 	}
 
-	public List<Transacao> listarPorTipo(TipoTransacao tipo) {
+	public List<TransacaoDTO> listarPorTipo(TipoTransacao tipo) {
 		List<Transacao> lista =  transacaoRepository.findByTipoTransacao(tipo);
 		if (lista.isEmpty()) {
 			throw new TransacaoNaoEncontradaException("Nenhuma transação encontrada para o tipo: " + tipo);
 		}
-		return lista;
+		
+		return lista.stream()
+				.map(transacaoConverter::entidadeParaDTO)
+				.collect(Collectors.toList());
 	}
 
 	public Transacao realizarTransferencia(Long contaOrigemId, Long contaDestinoId, BigDecimal valor) {

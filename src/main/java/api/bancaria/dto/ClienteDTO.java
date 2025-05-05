@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Size;
 
 public class ClienteDTO {
 
-	@NotNull(message = "Campo Obrigatório")
+
 	@Min(1)
 	@Max(999999)
 	private Long idCliente;

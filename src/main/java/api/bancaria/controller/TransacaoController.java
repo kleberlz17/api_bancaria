@@ -2,7 +2,7 @@ package api.bancaria.controller;
 
 import java.math.BigDecimal;
 import java.net.URI;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import api.bancaria.dto.TransacaoDTO;
@@ -52,10 +51,10 @@ public class TransacaoController {
 	}
 	
 	@GetMapping("/{idTransacao}")
-	public ResponseEntity<Transacao> obterPorId(@PathVariable Long idTransacao) {
+	public ResponseEntity<TransacaoDTO> obterPorId(@PathVariable Long idTransacao) {
 		log.info("Buscando transação com o ID: {}", idTransacao);
 		
-		Optional<Transacao> transacao = transacaoService.obterPorId(idTransacao);
+		Optional<TransacaoDTO> transacao = transacaoService.obterPorId(idTransacao);
 		
 		if(transacao.isPresent()) {
 			return ResponseEntity.ok(transacao.get());
@@ -64,11 +63,11 @@ public class TransacaoController {
 		}
 	}
 	
-	@GetMapping("/valores")
-	public ResponseEntity<List<Transacao>> obterPorValorMovimentado(@RequestParam BigDecimal valorMovimentado) {
+	@GetMapping("/valores/{valorMovimentado}")
+	public ResponseEntity<List<TransacaoDTO>> obterPorValorMovimentado(@PathVariable BigDecimal valorMovimentado) {
 		log.info("Buscando transações por valor movimentado: {}", valorMovimentado);
 		
-		List<Transacao> valoresTransacoes = transacaoService.obterPorValorMovimentado(valorMovimentado);
+		List<TransacaoDTO> valoresTransacoes = transacaoService.obterPorValorMovimentado(valorMovimentado);
 		if(valoresTransacoes.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
@@ -76,11 +75,11 @@ public class TransacaoController {
 		}
 	}
 	
-	@GetMapping("/datastransacoes")
-	public ResponseEntity<List<Transacao>> obterDataTransacao(@RequestParam LocalDateTime dataTransacao) {
+	@GetMapping("/datas/{dataTransacao}")
+	public ResponseEntity<List<TransacaoDTO>> obterDataTransacao(@PathVariable LocalDate dataTransacao) {
 		log.info("Buscando datas de movimentações de transações: {}", dataTransacao);
 		
-		List<Transacao> datasTransacoes = transacaoService.obterDataTransacao(dataTransacao);
+		List<TransacaoDTO> datasTransacoes = transacaoService.obterDataTransacao(dataTransacao);
 		if(datasTransacoes.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
@@ -89,10 +88,10 @@ public class TransacaoController {
 	}
 	
 	@GetMapping("/transacoesconta/{idConta}")
-	public ResponseEntity<List<Transacao>> listarTransacoesConta(@PathVariable Long idConta) {
+	public ResponseEntity<List<TransacaoDTO>> listarTransacoesConta(@PathVariable Long idConta) {
 		log.info("Buscando transações de conta com ID: {}", idConta);
 		
-		List<Transacao> listaTransacoes = transacaoService.listarTransacoesConta(idConta);
+		List<TransacaoDTO> listaTransacoes = transacaoService.listarTransacoesConta(idConta);
 		if(listaTransacoes.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
@@ -100,11 +99,11 @@ public class TransacaoController {
 		}	
 	}
 	
-	@GetMapping("/periodo")
-	public ResponseEntity<List<Transacao>> listarPorPeriodo(@RequestParam LocalDateTime inicio,  @RequestParam LocalDateTime fim) {
+	@GetMapping("/transacoesperiodo/{inicio}/{fim}")
+	public ResponseEntity<List<TransacaoDTO>> listarPorPeriodo(@PathVariable LocalDate inicio,  @PathVariable LocalDate fim) {
 		log.info("Buscando transações entre {} e {}", inicio, fim);
 		
-		List<Transacao> listaPeriodo = transacaoService.listarPorPeriodo(inicio, fim);
+		List<TransacaoDTO> listaPeriodo = transacaoService.listarPorPeriodo(inicio, fim);
 		if(listaPeriodo.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
@@ -112,11 +111,11 @@ public class TransacaoController {
 		}
 	}
 	
-	@GetMapping("/tipostransacao")
-	public ResponseEntity<List<Transacao>> listarPorTipo(@RequestParam TipoTransacao tipo) {
+	@GetMapping("/tipostransacao/{tipo}")
+	public ResponseEntity<List<TransacaoDTO>> listarPorTipo(@PathVariable TipoTransacao tipo) {
 		log.info("Buscando tipos de transações: {}", tipo);
 		
-		List<Transacao> tiposTransacoes = transacaoService.listarPorTipo(tipo);
+		List<TransacaoDTO> tiposTransacoes = transacaoService.listarPorTipo(tipo);
 		if(tiposTransacoes.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {

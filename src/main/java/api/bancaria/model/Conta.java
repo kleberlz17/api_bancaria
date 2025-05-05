@@ -2,6 +2,8 @@ package api.bancaria.model;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,6 +39,7 @@ public class Conta {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "dono_conta", nullable = false)
+	@JsonBackReference //Evita a serialização de Cliente dentro da Conta, previne Loop infinito.
 	private Cliente cliente;
 
 	public Long getIdConta() {

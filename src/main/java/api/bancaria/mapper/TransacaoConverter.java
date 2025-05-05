@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.springframework.stereotype.Component;
 
 import api.bancaria.dto.TransacaoDTO;
+import api.bancaria.model.Conta;
 import api.bancaria.model.Transacao;
 
 @Component
@@ -23,6 +24,18 @@ public class TransacaoConverter {
 		transacao.setTipoTransacao(transacaoDTO.getTipoTransacao());
 		transacao.setValorMovimentado(transacaoDTO.getValorMovimentado());
 		transacao.setDataTransacao(transacaoDTO.getDataTransacao());
+		
+		if (transacaoDTO.getContaOrigemId() != null) { //Necessário por referenciar outra entidade.(Conta)
+			Conta contaOrigem = new Conta();	//Criar objeto da Conta e atribuir o ID dele.
+			contaOrigem.setIdConta(transacaoDTO.getContaOrigemId());
+			transacao.setContaOrigem(contaOrigem);
+		}
+		
+		if(transacaoDTO.getContaDestinoId() != null) { // Necessário por referenciar outra entidade(Conta)
+			Conta contaDestino = new Conta();   //Criar objeto da Conta e atribuir o ID dele.
+			contaDestino.setIdConta(transacaoDTO.getContaDestinoId());
+			transacao.setContaDestino(contaDestino);
+		}
 		
 		return transacao;
 	}

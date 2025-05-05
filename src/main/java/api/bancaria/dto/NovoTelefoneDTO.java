@@ -9,6 +9,10 @@ public class NovoTelefoneDTO {
 	@Size(min = 10, max = 15, message = "O telefone deve ter entre 10 e 15 caracteres.")
 	private String telefone;
 
+	public NovoTelefoneDTO() {//Jackson depende dele pra criar a instancia do DTO quando converte o JSON(de fora) em um objeto.
+		
+	}
+	
 	public NovoTelefoneDTO(String telefone) {
 		this.telefone = telefone;
 	}

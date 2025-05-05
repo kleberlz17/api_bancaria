@@ -26,7 +26,7 @@ public class ClienteValidator {
 
 	private boolean existeClienteCadastrado(Cliente cliente) {
 		//Verificar no banco se existe algum cliente com o mesmo CPF.
-		Optional<Cliente> existente = clienteRepository.findByCpf(cliente.getCpf());
+		Optional<Cliente> existente = clienteRepository.findByCpfContainingIgnoreCase(cliente.getCpf());
 		return existente.isPresent() && !existente.get().getIdCliente().equals(cliente.getIdCliente());
 	}
 

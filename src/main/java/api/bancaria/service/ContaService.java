@@ -14,8 +14,10 @@ import api.bancaria.model.Conta;
 import api.bancaria.model.StatusConta;
 import api.bancaria.repository.ClienteRepository;
 import api.bancaria.repository.ContaRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class ContaService {
 
 	private final ContaRepository contaRepository;
@@ -35,17 +37,45 @@ public class ContaService {
 	}
 	
 	public Conta atualizarSaldo(Long idConta, BigDecimal novoSaldo) {
+		
+		if(novoSaldo == null) {
+			throw new IllegalArgumentException("O saldo não pode ser nulo.");
+		}
+		
 		Conta conta = contaRepository.findById(idConta)
 				.orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada"));
+		
+		if(conta.getSaldoAtual().equals(novoSaldo)) {
+			log.info("Saldo já está atualizado para: {}", novoSaldo);
+			return conta;
+		}
+		
 		conta.setSaldoAtual(novoSaldo);
-		return contaRepository.save(conta);
+		
+		Conta contaAtualizada = contaRepository.save(conta);
+		log.info("Conta com ID {} atualizada com novo saldo: {}", idConta, contaAtualizada.getSaldoAtual());
+		
+		
+		
+		
+		return contaAtualizada;
 	}
 	
 	public Conta alterarStatus(Long idConta, StatusConta novoStatus) {
 		Conta conta = contaRepository.findById(idConta)
 				.orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada"));
+		
+		if(conta.getStatusConta().equals(novoStatus)) {
+			log.info("O Status já está atualiazdo para: {}", novoStatus);
+			return conta;
+		}
+		
 		conta.setStatusConta(novoStatus);
-		return contaRepository.save(conta);
+		
+		Conta contaAtualizada = contaRepository.save(conta);
+		log.info("Conta com o ID {} atualizada com o novo status: {}", idConta, contaAtualizada.getStatusConta());
+		
+		return contaAtualizada;
 	}
 	
 	public List<Conta> buscarPorCliente(Long idCliente) {//Buscando Contas pelo id do cliente.
@@ -54,12 +84,6 @@ public class ContaService {
 			throw new ClienteNaoEncontradoException("ID do cliente inexistente");
 		}
 		return lista;
-	}
-	
-	public Cliente buscarClientePorIdConta(Long idConta) {//Buscando Cliente pelo id da conta.
-		return contaRepository.findById(idConta)
-				.map(Conta::getCliente)
-				.orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada"));
 	}
 	
 	public Cliente buscarClientePorId(Long idCliente) {

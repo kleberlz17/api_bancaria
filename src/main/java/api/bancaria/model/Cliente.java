@@ -3,6 +3,9 @@ package api.bancaria.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -37,7 +40,8 @@ public class Cliente {
 	@Column(name = "endereco", length = 200, nullable = false)
 	private String endereco;
 
-	@OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonManagedReference //Indica que a lista de Contas deve ser incluida na serialização de Cliente.
 	private List<Conta> contas;
 
 	public Long getIdCliente() {
