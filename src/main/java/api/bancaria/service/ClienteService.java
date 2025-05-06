@@ -35,24 +35,28 @@ public class ClienteService {
 		}
 		
 		clienteValidator.validarCliente(cliente);
+		log.info("Cliente salvo: {}", cliente);
 		return clienteRepository.save(cliente);
 	}
 	
 	public Optional<Cliente> buscarPorId(Long idCliente){
+		log.info("Cliente encontrado com o ID: {}", idCliente);
 		return clienteRepository.findById(idCliente);
 	}
 	
 	public List<Cliente> buscarPorNome(String nome){
 		List<Cliente> clientes = clienteRepository.findByNomeContainingIgnoreCase(nome);
-		log.info("Cliente encontrados: {}", clientes.size());
+		log.info("Clientes encontrados: {}", clientes.size());
 		return clientes;
 	}
 	
 	public Optional<Cliente> buscarPorCpf(String cpf) {
+		log.info("Cliente encontrado com o CPF: {}", cpf);
 		return clienteRepository.findByCpfContainingIgnoreCase(cpf);
 	}
 	
 	public Optional<Cliente> buscarPorNomeAndCpfAndDataNascimento(String nome, String cpf, LocalDate dataNascimento){
+		log.info("Cliente encontrado com Nome: {}, CPF: {}, Data de Nascimento: {}", nome, cpf, dataNascimento);
 		return clienteRepository.findByNomeContainingIgnoreCaseAndCpfContainingIgnoreCaseAndDataNascimento(nome, cpf, dataNascimento);
 	}
 	
@@ -68,6 +72,7 @@ public class ClienteService {
 			throw new IllegalArgumentException("Email não pode ser nulo ou vazio");
 		}
 		
+		log.info("Email alterado para: {}", emailNovo);
 		return atualizarCampo(idCliente, cliente -> { cliente.setEmail(emailNovo);
 			clienteValidator.validarEmail(cliente);
 		});
@@ -78,6 +83,7 @@ public class ClienteService {
 			throw new IllegalArgumentException("Telefone não pode ser nulo ou vazio");
 		}
 		
+		log.info("Telefone alterado para: {}", telefoneNovo);
 		return atualizarCampo(idCliente, cliente -> { cliente.setTelefone(telefoneNovo);
 		clienteValidator.validarTelefone(cliente);
 		});
@@ -88,9 +94,8 @@ public class ClienteService {
 				.orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
 		
 		cliente.setEndereco(enderecoNovo);
-		
+		log.info("Endereço alterado para: {}", enderecoNovo);
 		return clienteRepository.save(cliente);
-		
 	}
 	
 
