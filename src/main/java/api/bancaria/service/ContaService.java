@@ -29,10 +29,12 @@ public class ContaService {
 	}
 	
 	public Conta salvar(Conta conta) {
+		log.info("Conta criada e salva com os dados: {}", conta);
 		return contaRepository.save(conta);
 	}
 	
-	public Optional<Conta> obterPorId(Long idConta){
+	public Optional<Conta> obterPorId(Long idConta) {
+		log.info("Conta encontrada com o ID: {}", idConta);
 		return contaRepository.findById(idConta);
 	}
 	
@@ -54,10 +56,6 @@ public class ContaService {
 		
 		Conta contaAtualizada = contaRepository.save(conta);
 		log.info("Conta com ID {} atualizada com novo saldo: {}", idConta, contaAtualizada.getSaldoAtual());
-		
-		
-		
-		
 		return contaAtualizada;
 	}
 	
@@ -66,7 +64,7 @@ public class ContaService {
 				.orElseThrow(() -> new ContaNaoEncontradaException("Conta não encontrada"));
 		
 		if(conta.getStatusConta().equals(novoStatus)) {
-			log.info("O Status já está atualiazdo para: {}", novoStatus);
+			log.info("O Status já está atualizado para: {}", novoStatus);
 			return conta;
 		}
 		
@@ -83,10 +81,12 @@ public class ContaService {
 		if(lista.isEmpty()) {
 			throw new ClienteNaoEncontradoException("ID do cliente inexistente");
 		}
+		log.info("Contas do cliente com ID {} : {}", idCliente, lista);
 		return lista;
 	}
 	
 	public Cliente buscarClientePorId(Long idCliente) {
+		log.info("Cliente com o ID {} encontrado.", idCliente);
 		return clienteRepository.findById(idCliente)
 				.orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
 	}

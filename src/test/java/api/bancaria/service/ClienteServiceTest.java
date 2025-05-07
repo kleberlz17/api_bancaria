@@ -147,8 +147,17 @@ class ClienteServiceTest {
 		Long id = cliente.getIdCliente();
 		String telefoneNovo = "21888888888"; //Testar vazio ou nulo é só colocar "" ou null.
 		
+		Cliente clienteAtualizado = new Cliente();
+		clienteAtualizado.setIdCliente(cliente.getIdCliente());
+		clienteAtualizado.setNome(cliente.getNome());
+		clienteAtualizado.setCpf(cliente.getCpf());
+		clienteAtualizado.setDataNascimento(cliente.getDataNascimento());
+		clienteAtualizado.setEmail(cliente.getEmail());
+		clienteAtualizado.setTelefone(telefoneNovo);
+		clienteAtualizado.setEndereco(cliente.getEndereco());
+		
 		when(clienteRepository.findById(id)).thenReturn(Optional.of(cliente));
-		when(clienteRepository.save(any(Cliente.class))).thenReturn(cliente);
+		when(clienteRepository.save(any(Cliente.class))).thenReturn(clienteAtualizado);
 		
 		Cliente resultado = clienteService.alterarTelefone(id, telefoneNovo);
 		
@@ -163,15 +172,23 @@ class ClienteServiceTest {
 		Long id = cliente.getIdCliente();
 		String enderecoNovo = "Rua TestadoraTests, 777";
 		
+		Cliente clienteAtualizado = new Cliente();
+		clienteAtualizado.setIdCliente(cliente.getIdCliente());
+		clienteAtualizado.setNome(cliente.getNome());
+		clienteAtualizado.setCpf(cliente.getCpf());
+		clienteAtualizado.setDataNascimento(cliente.getDataNascimento());
+		clienteAtualizado.setEmail(cliente.getEmail());
+		clienteAtualizado.setTelefone(cliente.getTelefone());
+		clienteAtualizado.setEndereco(enderecoNovo);
+		
 		when(clienteRepository.findById(id)).thenReturn(Optional.of(cliente));
-		when(clienteRepository.save(any(Cliente.class))).thenReturn(cliente);
+		when(clienteRepository.save(any(Cliente.class))).thenReturn(clienteAtualizado);
 		
 		Cliente resultado = clienteService.alterarEndereco(id, enderecoNovo);
 		
 		assertNotNull(resultado);
 		assertEquals(enderecoNovo, resultado.getEndereco());
 		verify(clienteRepository).save(cliente);
-		
 	}
 	
 	
