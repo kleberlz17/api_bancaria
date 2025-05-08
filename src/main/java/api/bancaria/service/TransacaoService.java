@@ -19,8 +19,10 @@ import api.bancaria.model.TipoTransacao;
 import api.bancaria.model.Transacao;
 import api.bancaria.repository.ContaRepository;
 import api.bancaria.repository.TransacaoRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class TransacaoService {
 
 	private final TransacaoRepository transacaoRepository;
@@ -35,6 +37,7 @@ public class TransacaoService {
 	}
 
 	public Transacao salvar(Transacao transacao) {
+		log.info("Transação salva no sistema: {}", transacao);
 		return transacaoRepository.save(transacao);
 	}
 
@@ -47,6 +50,11 @@ public class TransacaoService {
 		if(transacaoOpt.isPresent()) {
 			//Converte Transacao para TransacaoDTO
 			TransacaoDTO transacaoDTO = transacaoConverter.entidadeParaDTO(transacaoOpt.get());
+			log.info("ID da transação obtido: {}, Tipo de Transação: {}, Valor movimentado: {}, Data da Transação: {}, Conta de origem: {}, Conta de destino: {}",
+					idTransacao, transacaoDTO.getTipoTransacao(),
+					transacaoDTO.getValorMovimentado(), transacaoDTO.getDataTransacao(), 
+					transacaoDTO.getContaOrigemId(), transacaoDTO.getContaDestinoId());
+			
 			return Optional.of(transacaoDTO);
 		} else {
 			return Optional.empty();
@@ -55,6 +63,7 @@ public class TransacaoService {
 
 	public List<TransacaoDTO> obterPorValorMovimentado(BigDecimal valorMovimentado) {
 		List<Transacao> transacoes = transacaoRepository.findByValorMovimentado(valorMovimentado);
+		log.info("Valor buscado: {}, Transações de valor equivalente: {}", valorMovimentado, transacoes.size());
 		return transacoes.stream()
 				.map(transacaoConverter::entidadeParaDTO)
 				.toList();
@@ -63,6 +72,7 @@ public class TransacaoService {
 
 	public List<TransacaoDTO> obterDataTransacao(LocalDate dataTransacao) {
 		List<Transacao> datas = transacaoRepository.findByDataTransacaoOnly(dataTransacao);
+		log.info("Data buscada: {}, Transações feitas no dia equivalente: {}", dataTransacao, datas.size());
 		return datas.stream()
 				.map(transacaoConverter::entidadeParaDTO)
 				.collect(Collectors.toList());
@@ -74,6 +84,7 @@ public class TransacaoService {
 		if (lista.isEmpty()) {
 			throw new TransacaoNaoEncontradaException("Nenhuma transação encontrada para a conta com ID: " + idConta);
 		}
+		log.info("ID da conta : {}, Transações feitas pela respectiva conta: {}", idConta, lista.size());
 		return lista.stream()
 				.map(transacaoConverter::entidadeParaDTO)
 				.collect(Collectors.toList());// coleta todos os DTOS convertidos em uma lista.
@@ -86,6 +97,7 @@ public class TransacaoService {
 			throw new TransacaoNaoEncontradaException("Nenhuma transação encontrada entre " + inicio + " e " + fim);
 		}
 		// Convertendo a lista de entidades transacao para DTOs novamente.
+		log.info("Datas buscadas:  {} e {}, Transações feitas no período: {}", inicio, fim, lista.size());
 		return lista.stream()
 				.map(transacaoConverter::entidadeParaDTO)
 				.collect(Collectors.toList());
@@ -97,6 +109,7 @@ public class TransacaoService {
 			throw new TransacaoNaoEncontradaException("Nenhuma transação encontrada para o tipo: " + tipo);
 		}
 		
+		log.info("Tipo de transação buscado: {}, Transações feitas do tipo buscado: {}", tipo, lista.size());
 		return lista.stream()
 				.map(transacaoConverter::entidadeParaDTO)
 				.collect(Collectors.toList());
@@ -123,6 +136,7 @@ public class TransacaoService {
 		transacao.setDataTransacao(LocalDateTime.now());
 		transacao.setTipoTransacao(TipoTransacao.TRANSFERENCIA);
 		
+		log.info("Transferência realizada da conta de ID {} para a conta de ID {} | Valor da transferência: {}", contaOrigemId, contaDestinoId, valor);
 		return transacaoRepository.save(transacao);
 	}
 

@@ -36,7 +36,10 @@ public class TransacaoDTO {
 		this.dataTransacao = dataTransacao;
 		this.contaOrigemId = contaOrigemId;
 		this.contaDestinoId = contaDestinoId;
-
+	}
+	
+	public TransacaoDTO() {
+		
 	}
 
 	public Long getIdTransacao() {

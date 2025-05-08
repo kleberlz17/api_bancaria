@@ -48,7 +48,7 @@ class ContaServiceTest {
 		cliente.setNome("Jacques");
 		cliente.setCpf("12345678900");
 		cliente.setDataNascimento(LocalDate.of(1992, 4, 30));
-		cliente.setEmail("jaques@email.com");
+		cliente.setEmail("jacques@email.com");
 		cliente.setTelefone("21999999999");
 		cliente.setEndereco("Rua Teste, 333");	
 		
