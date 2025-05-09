@@ -49,6 +49,10 @@ public class ClienteDTO {
 		this.telefone = telefone;
 		this.endereco = endereco;
 	}
+	
+	public ClienteDTO() { // Para os testes de integração
+		
+	}
 
 	public Long getIdCliente() {
 		return idCliente;

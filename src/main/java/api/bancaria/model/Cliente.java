@@ -43,6 +43,23 @@ public class Cliente {
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonManagedReference //Indica que a lista de Contas deve ser incluida na serialização de Cliente.
 	private List<Conta> contas;
+	
+	public Cliente( String nome, String cpf,
+			LocalDate dataNascimento, String email, String telefone, String endereco) {
+		
+		
+		this.nome = nome;
+		this.cpf = cpf;
+		this.dataNascimento = dataNascimento;
+		this.email = email;
+		this.telefone = telefone;
+		this.endereco = endereco;	
+	}
+	
+	public Cliente() { // Necessário pros testes unitários do Cliente.
+		
+	}
+
 
 	public Long getIdCliente() {
 		return idCliente;
