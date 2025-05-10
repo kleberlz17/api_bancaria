@@ -41,6 +41,18 @@ public class Conta {
 	@JoinColumn(name = "dono_conta", nullable = false)
 	@JsonBackReference //Evita a serialização de Cliente dentro da Conta, previne Loop infinito.
 	private Cliente cliente;
+	
+	public Conta(String agencia, BigDecimal saldoAtual, TipoConta tipoConta, StatusConta statusConta, Cliente cliente) {
+		this.agencia = agencia;
+		this.saldoAtual = saldoAtual;
+		this.tipoConta = tipoConta;
+		this.statusConta = statusConta;	
+		this.cliente = cliente;
+	}
+	
+	public Conta() {
+		
+	}
 
 	public Long getIdConta() {
 		return idConta;

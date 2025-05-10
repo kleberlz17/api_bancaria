@@ -40,7 +40,7 @@ public class ClienteService {
 	}
 	
 	public Optional<Cliente> buscarPorId(Long idCliente){
-		log.info("Cliente encontrado com o ID: {}", idCliente);
+		log.info("Cliente encontrado com o ID: {}, Dados da conta: {}", idCliente);
 		return clienteRepository.findById(idCliente);
 	}
 	

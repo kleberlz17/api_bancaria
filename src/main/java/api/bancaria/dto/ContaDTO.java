@@ -43,6 +43,9 @@ public class ContaDTO {
 		this.tipoConta = tipoConta;
 		this.statusConta = statusConta;
 		this.clienteId = clienteId;
+	}
+	
+	public ContaDTO() {
 		
 	}
 

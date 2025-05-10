@@ -45,7 +45,7 @@ class ClienteControllerIntegrationTest {
 	@Autowired
 	private ClienteRepository clienteRepository;
 	
-	private Long idCliente; //Todos aqui são necessários pro Get pq o banco está em CREATE DROP(cria e apaga)
+	private Long idCliente; //É necessário pro Get pq o banco está em CREATE DROP(cria e apaga)
 	
 	@BeforeEach
 	void setUp() {
