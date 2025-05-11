@@ -47,6 +47,19 @@ public class Transacao {
 			this.dataTransacao = LocalDateTime.now(); // Define hora e data atual antes de persistir
 		}
 	}
+	
+	public Transacao () {
+		
+	}
+	
+	public Transacao(TipoTransacao tipoTransacao, BigDecimal valorMovimentado, LocalDateTime dataTransacao, Conta contaOrigem, Conta contaDestino) {
+		
+		this.tipoTransacao = tipoTransacao;
+		this.valorMovimentado = valorMovimentado;
+		this.dataTransacao = dataTransacao;
+		this.contaOrigem = contaOrigem;
+		this.contaDestino = contaDestino;
+	}
 
 	public Long getIdTransacao() {
 		return idTransacao;

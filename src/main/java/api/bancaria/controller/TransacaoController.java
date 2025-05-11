@@ -95,6 +95,7 @@ public class TransacaoController {
 		if(listaTransacoes.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
+			log.info("Transações feitas: {}", listaTransacoes);
 			return ResponseEntity.ok(listaTransacoes);
 		}	
 	}
