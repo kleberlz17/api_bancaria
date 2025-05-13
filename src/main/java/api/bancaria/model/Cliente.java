@@ -21,7 +21,7 @@ public class Cliente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_cliente", nullable = false)
 	private Long idCliente;
-
+	
 	@Column(name = "nome", length = 150, nullable = false)
 	private String nome;
 
@@ -127,9 +127,9 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [idCliente=" + idCliente + ", nomeCompleto=" + nome + ", cpf=" + cpf
-				+ ", dataNascimento=" + dataNascimento + ", email=" + email + ", telefone=" + telefone + ", endereco="
-				+ endereco + ", contas=" + contas + "]";
+		return "Cliente [idCliente=" + idCliente + ", nome=" + nome + ", cpf="
+				+ cpf + ", dataNascimento=" + dataNascimento + ", email=" + email + ", telefone=" + telefone
+				+ ", endereco=" + endereco + ", contas=" + contas + "]";
 	}
 
 	

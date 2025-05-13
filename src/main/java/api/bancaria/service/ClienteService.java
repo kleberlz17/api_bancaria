@@ -20,9 +20,11 @@ public class ClienteService {
 	private final ClienteRepository clienteRepository;
 	private final ClienteValidator clienteValidator;
 	
+	
 	public ClienteService(ClienteRepository clienteRepository, ClienteValidator clienteValidator) {
 		this.clienteRepository = clienteRepository;
 		this.clienteValidator = clienteValidator;
+		
 	}
 	
 	public Cliente salvar(Cliente cliente) {
