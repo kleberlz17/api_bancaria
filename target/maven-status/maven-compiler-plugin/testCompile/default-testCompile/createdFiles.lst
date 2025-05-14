@@ -1,0 +1,7 @@
+api\bancaria\ApiBancariaApplicationTests.class
+api\bancaria\controller\TransacaoControllerIntegrationTest.class
+api\bancaria\service\ClienteServiceTest.class
+api\bancaria\controller\ContaControllerIntegrationTest.class
+api\bancaria\service\TransacaoServiceTest.class
+api\bancaria\controller\ClienteControllerIntegrationTest.class
+api\bancaria\service\ContaServiceTest.class

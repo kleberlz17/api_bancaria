@@ -14,8 +14,10 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class JwtCustomAuthenticationFilter extends OncePerRequestFilter {
 	
 	private final UsuarioService usuarioService;
@@ -31,6 +33,7 @@ public class JwtCustomAuthenticationFilter extends OncePerRequestFilter {
 			FilterChain filterChain) throws ServletException, IOException {
 			
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
 		if(deveConverter(authentication)) {
 			String login = authentication.getName();
 			Optional<Usuario> usuarioOptional = usuarioService.buscarPorLogin(login);
@@ -39,6 +42,10 @@ public class JwtCustomAuthenticationFilter extends OncePerRequestFilter {
 				Authentication newAuthentication = new CustomAuthentication(usuario);
 				SecurityContextHolder.getContext().setAuthentication(newAuthentication);	
 		});
+			
+			if(usuarioOptional.isEmpty()) {
+				log.warn("Usuário com login '{}' não encontrado na base de dados.", login);
+			}
 	}
 		
 		filterChain.doFilter(request, response);
