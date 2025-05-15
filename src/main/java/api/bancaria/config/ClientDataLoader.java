@@ -22,7 +22,9 @@ public class ClientDataLoader implements CommandLineRunner {
 			novoClient.setClientId("meu-client");
 			novoClient.setClientSecret("MinhaSenhaSecreta");
 			novoClient.setRedirectUri("http://localhost:8080/login/oauth2/code/meu-client");
-			novoClient.setScope("read write");
+			novoClient.setScope("read write"); // read write = le, cria e edita
+			// outros ex: delete = pode excluir / admin = acesso mais completo.
+			// são scopes padrões de uso comum.
 			
 			clientService.salvar(novoClient);
 			

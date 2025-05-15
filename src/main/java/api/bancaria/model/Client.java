@@ -24,7 +24,7 @@ public class Client {
 	@Column(name = "redirect_uri")
 	private String redirectUri;
 	
-	@Column(name = "scope")
+	@Column(name = "scope") // Limites de acesso que um client pode ter na API
 	private String scope;
 
 	public Long getId() {
