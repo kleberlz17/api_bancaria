@@ -40,19 +40,28 @@ public class CustomRegisteredClientRepository implements RegisteredClientReposit
 			return null;
 		}
 		
-		return RegisteredClient
-				.withId(client.getId().toString())
-				.clientId(client.getClientId())
-				.clientSecret(client.getClientSecret())
-				.redirectUri(client.getRedirectUri())
-				.scope(client.getScope())
-				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-				.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-				.tokenSettings(tokenSettings)
-				.clientSettings(clientSettings)
-				.build();
+		RegisteredClient.Builder builder = RegisteredClient
+			    .withId(client.getId().toString())
+			    .clientId(client.getClientId())
+			    .clientSecret(client.getClientSecret())
+			    .redirectUri(client.getRedirectUri())
+			    .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+			    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+			    .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+			    .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+			    .tokenSettings(tokenSettings)
+			    .clientSettings(clientSettings);
+
+			// adiciona escopos individualmente:
+			if (client.getScope() != null && !client.getScope().isBlank()) {
+			    String[] scopes = client.getScope().split("\\s+");
+			    for (String scope : scopes) {
+			        builder.scope(scope.trim());
+			    }
+			}
+
+			return builder.build();
+
 	}
 
 }
