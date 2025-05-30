@@ -38,7 +38,7 @@ public class TransacaoController {
 	
 	@PostMapping
 	public ResponseEntity<Object> salvar (@RequestBody @Valid TransacaoDTO transacaoDTO) {
-		log.info("Salvando dados de transações: {}", transacaoDTO.getIdTransacao());
+		log.info("Salvando dados de transações no sistema...");
 		
 		Transacao transacao = transacaoConverter.dtoParaEntidade(transacaoDTO);
 		Transacao transacaoSalva = transacaoService.salvar(transacao);
@@ -47,16 +47,18 @@ public class TransacaoController {
 		
 		URI uri = URI.create("/transacoes/" + transacaoSalvaDTO.getIdTransacao());
 		
+		log.info("Transação salva com sucesso.");
 		return ResponseEntity.created(uri).body(transacaoSalvaDTO);
 	}
 	
 	@GetMapping("/{idTransacao}")
 	public ResponseEntity<TransacaoDTO> obterPorId(@PathVariable Long idTransacao) {
-		log.info("Buscando transação com o ID: {}", idTransacao);
+		log.info("Buscando transação com o ID {} no sistema...", idTransacao);
 		
 		Optional<TransacaoDTO> transacao = transacaoService.obterPorId(idTransacao);
 		
 		if(transacao.isPresent()) {
+			log.info("Transação encontrada");
 			return ResponseEntity.ok(transacao.get());
 		} else {
 			return ResponseEntity.notFound().build();
@@ -65,31 +67,35 @@ public class TransacaoController {
 	
 	@GetMapping("/valores/{valorMovimentado}")
 	public ResponseEntity<List<TransacaoDTO>> obterPorValorMovimentado(@PathVariable BigDecimal valorMovimentado) {
-		log.info("Buscando transações por valor movimentado: {}", valorMovimentado);
+		log.info("Buscando transações pelo valor {} no sistema...", valorMovimentado);
 		
 		List<TransacaoDTO> valoresTransacoes = transacaoService.obterPorValorMovimentado(valorMovimentado);
 		if(valoresTransacoes.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
+			
+			log.info("Transações encontradas.");
 			return ResponseEntity.ok(valoresTransacoes);
 		}
 	}
 	
 	@GetMapping("/datas/{dataTransacao}")
 	public ResponseEntity<List<TransacaoDTO>> obterDataTransacao(@PathVariable LocalDate dataTransacao) {
-		log.info("Buscando datas de movimentações de transações: {}", dataTransacao);
+		log.info("Buscando transações movimentadas na data {} no sistema...", dataTransacao);
 		
 		List<TransacaoDTO> datasTransacoes = transacaoService.obterDataTransacao(dataTransacao);
 		if(datasTransacoes.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
+			
+			log.info("Transações encontradas.");
 			return ResponseEntity.ok(datasTransacoes);
 		}
 	}
 	
 	@GetMapping("/transacoesconta/{idConta}")
 	public ResponseEntity<List<TransacaoDTO>> listarTransacoesConta(@PathVariable Long idConta) {
-		log.info("Buscando transações de conta com ID: {}", idConta);
+		log.info("Buscando transações de conta com ID {} no sistema...", idConta);
 		
 		List<TransacaoDTO> listaTransacoes = transacaoService.listarTransacoesConta(idConta);
 		if(listaTransacoes.isEmpty()) {
@@ -102,24 +108,28 @@ public class TransacaoController {
 	
 	@GetMapping("/transacoesperiodo/{inicio}/{fim}")
 	public ResponseEntity<List<TransacaoDTO>> listarPorPeriodo(@PathVariable LocalDate inicio,  @PathVariable LocalDate fim) {
-		log.info("Buscando transações entre {} e {}", inicio, fim);
+		log.info("Buscando transações entre {} e {} no sistema...", inicio, fim);
 		
 		List<TransacaoDTO> listaPeriodo = transacaoService.listarPorPeriodo(inicio, fim);
 		if(listaPeriodo.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
+			
+			log.info("Transações encontradas.");
 			return ResponseEntity.ok(listaPeriodo);
 		}
 	}
 	
 	@GetMapping("/tipostransacao/{tipo}")
 	public ResponseEntity<List<TransacaoDTO>> listarPorTipo(@PathVariable TipoTransacao tipo) {
-		log.info("Buscando tipos de transações: {}", tipo);
+		log.info("Buscando transações do tipo {} no sistema...", tipo);
 		
 		List<TransacaoDTO> tiposTransacoes = transacaoService.listarPorTipo(tipo);
 		if(tiposTransacoes.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		} else {
+			
+			log.info("Transações encontradas.");
 			return ResponseEntity.ok(tiposTransacoes);
 		}
 		
@@ -127,7 +137,7 @@ public class TransacaoController {
 	
 	@PostMapping("/transferir")
 	public ResponseEntity<TransacaoDTO> transferir(@RequestBody @Valid TransacaoDTO transacaoDTO) {
-		log.info("Iniciando transferência de conta {} para conta {} no valor de {}",
+		log.info("Iniciando transferência de conta {} para conta {} no valor de {}...",
 				transacaoDTO.getContaOrigemId(), transacaoDTO.getContaDestinoId(), transacaoDTO.getValorMovimentado());
 		
 		//Aqui chama o service diretamente com os IDs, não precisa buscar Conta aqui.
@@ -137,6 +147,8 @@ public class TransacaoController {
 				transacaoDTO.getValorMovimentado());
 		
 		TransacaoDTO respostaDTO = transacaoConverter.entidadeParaDTO(transacao);
+		
+		log.info("Transação concluída com sucesso.");
 		return ResponseEntity.ok(respostaDTO);
 	}
 	

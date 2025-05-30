@@ -39,22 +39,25 @@ public class UsuarioController {
 	
 	@PostMapping
 	public ResponseEntity<Object> salvar(@RequestBody @Valid UsuarioDTO usuarioDTO) {
-		log.info("Salvando os dados do usuário: {}", usuarioDTO.getIdUser());
+		log.info("Salvando os dados do usuário no sistema...");
 		
 		Usuario usuario = usuarioConverter.dtoParaEntidade(usuarioDTO);
 		Usuario usuarioSalvo = usuarioService.salvar(usuario);
 		
 		URI uri = URI.create("/usuarios/" + usuarioSalvo.getIdUser());
 		
+		log.info("Usuário salvo com sucesso.");
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@GetMapping("/{idUser}")
 	public ResponseEntity<Usuario> buscarPorIdUser(@PathVariable Long idUser){
-		log.info("Buscando os dados do usuário: {}", idUser );
+		log.info("Buscando os dados do usuário de ID {} no sistema...", idUser );
 		
 		Optional<Usuario> usuario = usuarioService.buscarPorIdUser(idUser);
 		if(usuario.isPresent()) {
+			
+			log.info("Dados do usuário encontrados.");
 			return ResponseEntity.ok(usuario.get());
 		} else {
 			return ResponseEntity.notFound().build();
@@ -63,10 +66,12 @@ public class UsuarioController {
 	
 	@GetMapping("/login")
 	public ResponseEntity<Usuario> buscarPorLogin(@RequestParam String login) {
-		log.info("Buscando Login do usuário: {}", login);
+		log.info("Buscando usuário por login {} no sistema...", login);
 		
 		Optional<Usuario> usuario = usuarioService.buscarPorLogin(login);
 		if(usuario.isPresent()) {
+			
+			log.info("Usuário encontrado");
 			return ResponseEntity.ok(usuario.get());
 		} else {
 			return ResponseEntity.notFound().build();
@@ -75,10 +80,12 @@ public class UsuarioController {
 	
 	@GetMapping("/email")
 	public ResponseEntity<Usuario> buscarPorEmail(@RequestParam String email) {
-		log.info("Buscando Email do usuário: {}", email);
+		log.info("Buscando usuário pelo email {} no sistema...", email);
 		
 		Optional<Usuario> usuario = usuarioService.buscarPorEmail(email);
 		if(usuario.isPresent()) {
+			
+			log.info("Usuário encontrado.");
 			return ResponseEntity.ok(usuario.get());
 		} else {
 			return ResponseEntity.notFound().build();
@@ -87,15 +94,19 @@ public class UsuarioController {
 	
 	@PutMapping("/{idUser}/novologin")
 	public ResponseEntity<Usuario> atualizarLogin(@PathVariable Long idUser, @RequestBody @Valid NovoLoginDTO novoLoginDto) {
-		log.info("Atualizando o login do usuário com o ID: {}", idUser);
+		log.info("Atualizando o login do usuário com o ID {} no sistema...", idUser);
 		Usuario loginAlterado = usuarioService.atualizarLogin(idUser, novoLoginDto.getLogin());
+		
+		log.info("Login do usuário foi atualizado com sucesso.");
 		return ResponseEntity.ok(loginAlterado);
 	}
 
 	@PutMapping("/{idUser}/novoemail")
 	public ResponseEntity<Usuario> atualizarEmail(@PathVariable Long idUser, @RequestBody @Valid NovoEmailDTO novoEmailDto) {
-		log.info("Atualizando o email do usuário com o ID: {}", idUser);
+		log.info("Atualizando o email do usuário com o ID {} no sistema...", idUser);
 		Usuario emailAlterado = usuarioService.atualizarEmail(idUser, novoEmailDto.getEmail());
+		
+		log.info("Email do usuário foi atualizado com sucesso.");
 		return ResponseEntity.ok(emailAlterado);	
 	}
 	
